@@ -1,10 +1,57 @@
-var colors = generateRandomColors(6); 
-
+var numberOfSquares = 6;
+var colors = generateRandomColors(numberOfSquares); 
 var squares = document.querySelectorAll(".square");
 var chosenColor = randomColor();
 var selectedColor = document.getElementById("selectedColor");
 var messageDisplay = document.getElementById("message");
 var h1 = document.querySelector("h1"); 
+var newColorsButton = document.getElementById("newColors");
+var easyMode = document.getElementById("easyMode");
+var hardMode = document.getElementById("hardMode");
+
+
+easyMode.addEventListener("click", function(){
+  hardMode.classList.remove("selected");
+  easyMode.classList.add("selected");
+  numberOfSquares = 3;
+  colors = generateRandomColors(numberOfSquares);
+  chosenColor = randomColor();
+  selectedColor.textContent = chosenColor;
+  for(var i = 0; i < squares.length; i++){
+    if(colors[i]){
+      squares[i].style.background = colors[i];
+    } else {
+      squares[i].style.display = "none";
+    }
+  }
+});
+
+hardMode.addEventListener("click", function(){
+  hardMode.classList.add("selected");
+  easyMode.classList.remove("selected");
+  numberOfSquares = 6;
+  colors = generateRandomColors(numberOfSquares);
+  chosenColor = randomColor();
+  selectedColor.textContent = chosenColor;
+  for(var i = 0; i < squares.length; i++){
+    squares[i].style.background = colors[i];
+    squares[i].style.display = "block";
+    }
+});
+
+newColorsButton.addEventListener("click", function() {
+  //generate new colours by calling the function 
+  colors = generateRandomColors(numberOfSquares);
+  //pick a new random colour from array
+  chosenColor = randomColor();
+  //change selectedColor to match picked colour
+  selectedColor.textContent = chosenColor;
+  //change colours of squares
+  for(var i = 0; i< squares.length; i++) {
+    squares[i].style.background = colors[i];
+  }
+  h1.style.background = "#f490c7";
+})
 
 selectedColor.textContent = chosenColor;
 
@@ -15,6 +62,7 @@ for(var i = 0; i < squares.length; i++) {
         var clickedColor = this.style.background;
         if(clickedColor === chosenColor){
           messageDisplay.textContent = "Correct";
+          newColorsButton.textContent = "Play Again?";
           changeColors(clickedColor);
           h1.style.background = clickedColor;
         } else {
